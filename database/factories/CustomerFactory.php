@@ -4,11 +4,11 @@ namespace Database\Factories;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Classes\Hook;
-use App\Models\Customer;
-use App\Models\CustomerGroup;
-use App\Models\Role;
-use App\Models\User;
+use Ns\Classes\Hook;
+use Ns\Models\Customer;
+use Ns\Models\CustomerGroup;
+use Ns\Models\Role;
+use Ns\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\TransactionAccount;
-use App\Models\TransactionHistory;
-use App\Models\User;
+use Ns\Models\TransactionAccount;
+use Ns\Models\TransactionHistory;
+use Ns\Models\User;
 use Illuminate\Database\Seeder;
 
 class TransactionSeeder extends Seeder

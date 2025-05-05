@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Classes\Hook;
-use App\Models\ProductUnitQuantity;
+use Ns\Classes\Hook;
+use Ns\Models\ProductUnitQuantity;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductUnitQuantityFactory extends Factory

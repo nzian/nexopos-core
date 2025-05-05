@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
-use App\Models\ProductCategory;
-use App\Models\ProductUnitQuantity;
-use App\Models\UnitGroup;
+use Ns\Models\Product;
+use Ns\Models\ProductCategory;
+use Ns\Models\ProductUnitQuantity;
+use Ns\Models\UnitGroup;
 use Illuminate\Database\Seeder;
 
 class ProductsSeeder extends Seeder

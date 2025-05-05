@@ -4,12 +4,12 @@ namespace Database\Factories;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Classes\Hook;
-use App\Models\Product;
-use App\Models\TaxGroup;
-use App\Models\UnitGroup;
-use App\Models\User;
-use App\Services\TaxService;
+use Ns\Classes\Hook;
+use Ns\Models\Product;
+use Ns\Models\TaxGroup;
+use Ns\Models\UnitGroup;
+use Ns\Models\User;
+use Ns\Services\TaxService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory

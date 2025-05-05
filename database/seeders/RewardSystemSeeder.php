@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\RewardSystem;
+use Ns\Models\RewardSystem;
 use Illuminate\Database\Seeder;
 
 class RewardSystemSeeder extends Seeder

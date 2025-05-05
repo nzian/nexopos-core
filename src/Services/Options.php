@@ -2,8 +2,8 @@
 
 namespace Ns\Services;
 
-use Ns\Option;
-use Ns\PaymentType;
+use Ns\Models\Option;
+use Ns\Models\PaymentType;
 
 class Options
 {

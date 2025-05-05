@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Unit;
-use App\Models\UnitGroup;
-use App\Models\User;
+use Ns\Models\Unit;
+use Ns\Models\UnitGroup;
+use Ns\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

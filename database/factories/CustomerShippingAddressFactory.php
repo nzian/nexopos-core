@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Classes\Hook;
-use App\Models\CustomerShippingAddress;
-use App\Models\User;
+use Ns\Classes\Hook;
+use Ns\Models\CustomerShippingAddress;
+use Ns\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Ns\Models\Model>
  */
 class CustomerShippingAddressFactory extends Factory
 {

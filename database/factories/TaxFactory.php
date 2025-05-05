@@ -4,9 +4,9 @@ namespace Database\Factories;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Classes\Hook;
-use App\Models\Tax;
-use App\Models\User;
+use Ns\Classes\Hook;
+use Ns\Models\Tax;
+use Ns\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaxFactory extends Factory

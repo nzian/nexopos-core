@@ -1,6 +1,6 @@
 <?php
 
-use Ns\CoreService;
+use Ns\Services\CoreService;
 
 if ( ! function_exists( 'array_insert' ) ) {
     /**

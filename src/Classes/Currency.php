@@ -2,7 +2,7 @@
 
 namespace Ns\Classes;
 
-use App\Services\CurrencyService;
+use Ns\Services\CurrencyService;
 
 class Currency
 {

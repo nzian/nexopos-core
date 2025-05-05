@@ -2,10 +2,10 @@
 
 namespace Ns\Classes;
 
-use App\Http\Middleware\CheckApplicationHealthMiddleware;
-use App\Http\Middleware\CheckMigrationStatus;
-use App\Http\Middleware\InstalledStateMiddleware;
-use App\Services\ModulesService;
+use Ns\Http\Middleware\CheckApplicationHealthMiddleware;
+use Ns\Http\Middleware\CheckMigrationStatus;
+use Ns\Http\Middleware\InstalledStateMiddleware;
+use Ns\Services\ModulesService;
 use Illuminate\Support\Facades\Route;
 
 class ModuleRouting

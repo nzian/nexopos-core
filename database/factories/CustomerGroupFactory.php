@@ -4,10 +4,10 @@ namespace Database\Factories;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Classes\Hook;
-use App\Models\CustomerGroup;
-use App\Models\RewardSystem;
-use App\Models\User;
+use Ns\Classes\Hook;
+use Ns\Models\CustomerGroup;
+use Ns\Models\RewardSystem;
+use Ns\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CustomerGroupFactory extends Factory

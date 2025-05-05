@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Ns\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string         $uuid
  * @property \Carbon\Carbon $updated_at
  */
-class CustomerShippingAddress extends CustomerAddress
+class UserShippingAddress extends CustomerAddress
 {
     use HasFactory;
 

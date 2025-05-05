@@ -2,8 +2,8 @@
 
 namespace Ns\Services;
 
-use Ns\Helpers\App;
-use Ns\Helpers\ArrayHelper;
+use Ns\Services\Helpers\App;
+use Ns\Services\Helpers\ArrayHelper;
 
 class Helper
 {

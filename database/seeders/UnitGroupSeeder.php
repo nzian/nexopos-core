@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\UnitGroup;
+use Ns\Models\UnitGroup;
 use Illuminate\Database\Seeder;
 
 class UnitGroupSeeder extends Seeder

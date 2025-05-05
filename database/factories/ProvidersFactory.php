@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Provider;
+use Ns\Models\Provider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProvidersFactory extends Factory

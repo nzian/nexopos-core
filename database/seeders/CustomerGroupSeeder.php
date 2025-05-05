@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\CustomerGroup;
+use Ns\Models\CustomerGroup;
 use Illuminate\Database\Seeder;
 
 class CustomerGroupSeeder extends Seeder

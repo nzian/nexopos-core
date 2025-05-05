@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Provider;
-use App\Models\Role;
+use Ns\Models\Provider;
+use Ns\Models\Role;
 use Illuminate\Database\Seeder;
 
 class DefaultProviderSeeder extends Seeder

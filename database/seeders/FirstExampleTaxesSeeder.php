@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Tax;
-use App\Models\TaxGroup;
-use App\Models\User;
+use Ns\Models\Tax;
+use Ns\Models\TaxGroup;
+use Ns\Models\User;
 use Illuminate\Database\Seeder;
 
 class FirstExampleTaxesSeeder extends Seeder

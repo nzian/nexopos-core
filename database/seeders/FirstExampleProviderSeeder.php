@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Provider;
-use App\Models\User;
+use Ns\Models\Provider;
+use Ns\Models\User;
 use Illuminate\Database\Seeder;
 
 class FirstExampleProviderSeeder extends Seeder

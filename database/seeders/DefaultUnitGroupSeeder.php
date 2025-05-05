@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
-use App\Models\Unit;
-use App\Models\UnitGroup;
+use Ns\Models\Role;
+use Ns\Models\Unit;
+use Ns\Models\UnitGroup;
 use Illuminate\Database\Seeder;
 
 class DefaultUnitGroupSeeder extends Seeder

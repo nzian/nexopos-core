@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\ProductCategory;
-use App\Models\Role;
+use Ns\Models\ProductCategory;
+use Ns\Models\Role;
 use Illuminate\Database\Seeder;
 
 class DefaultCategorySeeder extends Seeder

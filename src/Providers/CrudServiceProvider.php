@@ -2,11 +2,12 @@
 
 namespace Ns\Providers;
 
+use Ns\Facades\Hook;
 use Ns\Classes\Cache;
 use Ns\Services\ModulesService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use TorMorten\Eventy\Facades\Events as Hook;
+use TorMorten\Eventy\Facades\Eventy;
 
 class CrudServiceProvider extends ServiceProvider
 {
@@ -21,7 +22,7 @@ class CrudServiceProvider extends ServiceProvider
          * every crud class on the system should be
          * added here in order to be available and supported.
          */
-        Hook::addFilter( 'ns-crud-resource', function ( $identifier ) {
+        Eventy::addFilter( 'ns-crud-resource', function ( $identifier ) {
             /**
              * We'll attempt autoloading crud that explicitely
              * defined they want to be autoloaded. We expect classes to have 2
