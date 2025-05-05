@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
 class SetupService
@@ -339,6 +340,86 @@ class SetupService
             }
 
             return response()->json( $message, 403 );
+        }
+    }
+
+    public function clearRegisteredFileSystem(): void
+    {
+        $filesystemPath = config_path('filesystems.php');
+
+        if (!file_exists($filesystemPath)) {
+            throw new \RuntimeException('The filesystem configuration file does not exist.');
+        }
+
+        $filesystemContent = file_get_contents($filesystemPath);
+
+        // Remove content between the opening and closing comments
+        $filesystemContent = preg_replace(
+            '/\/\* NexoPOS: FileSystem - Start \*\/(.*?)\/\* NexoPOS: FileSystem - End \*\//s',
+            '',
+            $filesystemContent
+        );
+
+        // Save the updated content back to the file
+        file_put_contents($filesystemPath, $filesystemContent);
+    }
+
+    /**
+     * Ensure a specific filesystem configuration exists in the filesystem.php file.
+     *
+     * @param string $key The filesystem configuration key to check.
+     * @param array $value The value to set if the configuration does not exist.
+     * @return void
+     */
+    public function registerFileSystem(string $key, $function, $path ): void
+    {
+        $filesystemPath = config_path('filesystems.php');
+
+        if (!file_exists($filesystemPath)) {
+            throw new \RuntimeException('The filesystem configuration file does not exist.');
+        }
+
+        $config = include $filesystemPath;
+
+        if (!isset($config['disks'][$key])) {
+            $filesystemContent  =   file_get_contents($filesystemPath);
+
+            // We'll check if the configuration has a "disks" key
+            if (preg_match('/\'disks\'\s*=>\s*\[/', $filesystemContent)) {
+                // If it does, we'll add the new configuration
+                $config  = View::make( 'ns::setup.filesystem', [
+                    'key' => $key,
+                    'function' => $function,
+                    'path' => $path,
+                ] );
+
+                // now we'll check if within the "disks" array we have some opening and closing command starting with "NexoPOS: FileSystem - Start" and ending with "NexoPOS: FileSystem - End"
+                // if so, we'll add the new configuration within these lines
+
+                if ( ! preg_match( '/NexoPOS: FileSystem - Start/', $filesystemContent ) && ! preg_match( '/NexoPOS: FileSystem - End/', $filesystemContent ) ) {
+                    // if not, we'll create a comment section within the "disks" array
+                    $filesystemContent = preg_replace(
+                        '/\'disks\'\s*=>\s*\[/',
+                        "'disks' => [\n\t\t/* NexoPOS: FileSystem - Start */\n\t\t/* NexoPOS: FileSystem - End */",
+                        $filesystemContent
+                    );
+                }
+
+                // we'll add the new configuration within the comment section
+                $filesystemContent = preg_replace(
+                    '/(\\/\\* NexoPOS: FileSystem - Start \\*\\/)(.*?)(\\/\\* NexoPOS: FileSystem - End \\*\\/)/s',
+                    "$1" . "$2\n\t\t" . $config . "\n\t\t$3",
+                    $filesystemContent
+                );
+
+                // Save the updated content back to the file
+                file_put_contents($filesystemPath, $filesystemContent);
+            } else {
+                // As for now, Laravel must have a "disks" key, so probably it's not a laravel project
+                // we'll then throw an exception
+
+                throw new \RuntimeException('The "disks" key does not exist in the filesystem configuration file.');
+            }
         }
     }
 }

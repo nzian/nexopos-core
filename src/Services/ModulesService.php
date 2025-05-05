@@ -61,7 +61,7 @@ class ModulesService
          * if that doesn't exists
          */
         if ( ! is_dir( base_path( 'modules' ) ) ) {
-            Storage::disk( 'ns' )->makeDirectory( 'modules' );
+            mkdir( base_path( 'modules' ) );
         }
 
         /**
