@@ -14,3 +14,12 @@
     </div>
 </div>
 @endsection
+
+@section( 'layout.base.footer' )
+    @parent
+    <script>
+        const nsLanguages   =   @json( $languages );
+        const nsLang = '{{ $lang }}';
+    </script>
+    @nsvite([ 'resources/ts/setup.ts' ])
+@endsection

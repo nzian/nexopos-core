@@ -8,6 +8,8 @@ class NsViteDirective
 {
     public function __invoke( $expression )
     {
-        return View::make( 'ns::vite', compact( 'expression'  ) )->render();
+        $content = file_get_contents( __DIR__ . '/../../resources/views/vite.blade.php' );
+        $content = str_replace( "'{{ expression }}'", $expression, $content );
+        return $content;
     }
 }

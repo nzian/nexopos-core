@@ -47,6 +47,10 @@ class ServiceProvider extends CoreServiceProvider
             __DIR__ . '/../../public' => public_path( 'vendor/ns' ),
         ], 'nexopos-assets' );
 
+        $this->publishes([
+            __DIR__ . '/../../config/nexopos.php' => config_path( 'nexopos.php' ),
+        ], 'nexopos-config' );
+
         $this->loadJsonTranslationsFrom ( __DIR__ . '/../lang' );
 
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'ns');

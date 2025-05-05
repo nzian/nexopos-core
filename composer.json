@@ -1,5 +1,5 @@
 {
-    "name": "ns/core",
+    "name": "nexopos/core",
     "autoload": {
         "psr-4": {
             "Ns\\": "src/"
