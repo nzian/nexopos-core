@@ -10,7 +10,7 @@ use Ns\ProductUnitQuantity;
 use Ns\Provider;
 use Ns\TaxGroup;
 use Ns\UnitGroup;
-use Ns\User;
+use Ns\Models\User;
 use Carbon\Carbon;
 use Faker\Factory;
 use Illuminate\Support\Arr;

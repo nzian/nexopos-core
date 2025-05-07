@@ -3,8 +3,8 @@
 namespace Ns\Services;
 
 use Ns\Classes\Hook;
-use NsEvents\SettingsSavedEvent;
-use NsTraits\NsForms;
+use Ns\Events\SettingsSavedEvent;
+use Ns\Traits\NsForms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 

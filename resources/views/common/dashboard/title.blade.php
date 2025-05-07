@@ -1,9 +1,9 @@
 <?php
 
-use App\Classes\Hook;
-use App\Classes\Output;
-use App\Events\AfterDashboardTitleEvent;
-use App\Events\BeforeDashboardTitleEvent;
+use Ns\Classes\Hook;
+use Ns\Classes\Output;
+use Ns\Events\AfterDashboardTitleEvent;
+use Ns\Events\BeforeDashboardTitleEvent;
 
 ?>
 <?php echo Output::dispatch( BeforeDashboardTitleEvent::class ); ?>

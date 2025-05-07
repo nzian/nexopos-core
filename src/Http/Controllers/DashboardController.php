@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
     public function home()
     {
-        return View::make( 'pages.dashboard.home', [
+        return View::make( 'ns::pages.dashboard.home', [
             'title' => __( 'Dashboard' ),
         ] );
     }

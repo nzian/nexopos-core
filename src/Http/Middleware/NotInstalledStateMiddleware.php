@@ -6,6 +6,7 @@ use Ns\Exceptions\NotAllowedException;
 use Ns\Services\Helper;
 use Closure;
 use Illuminate\Support\Facades\App;
+use Ns\Models\Role;
 
 class NotInstalledStateMiddleware
 {
@@ -26,7 +27,13 @@ class NotInstalledStateMiddleware
             App::setLocale( $validLanguage );
         }
 
-        if ( ! Helper::installed() ) {
+        /**
+         * We'll also check if there is at least
+         * and administrator. If he's deleted, it will be required to create a new one.
+         */
+        $totalAdmins    =   Role::withNamespace( Role::ADMIN )->whereHas( 'users' )->count();
+
+        if ( ! Helper::installed() || $totalAdmins === 0 ) {
             return $next( $request );
         }
 

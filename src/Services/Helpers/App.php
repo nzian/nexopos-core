@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Ns\Models\Role;
 
 trait App
 {
@@ -18,19 +19,18 @@ trait App
      */
     public static function installed()
     {
-        if ( ! Cache::has( 'ns-core-installed' ) ) {
-            Cache::set( 'ns-core-installed', (bool) self::checkDatabaseExistence(), 60 );
-        }
-
-        return (bool) Cache::get( 'ns-core-installed' );
+        return app()->make( 'ns.installed' );
     }
 
-    private static function checkDatabaseExistence()
+    public static function checkDatabaseExistence()
     {
         try {
             if ( DB::connection()->getPdo() ) {
-                return Schema::hasTable( 'nexopos_options' );
+                return Schema::hasTable( 'nexopos_options' ) && Schema::hasTable( 'nexopos_roles' );
             }
+
+            return false;
+            
         } catch ( \Exception $e ) {
             return false;
         }

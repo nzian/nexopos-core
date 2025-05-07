@@ -2,7 +2,7 @@
 
 namespace Ns\Services;
 
-use Ns\Migration;
+use Ns\Models\Migration;
 use Exception;
 use Illuminate\Database\Migrations\Migration as MigrationsMigration;
 use Illuminate\Support\Collection;

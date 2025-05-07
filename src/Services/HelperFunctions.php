@@ -1,5 +1,6 @@
 <?php
 
+use Ns\Classes\Hook;
 use Ns\Services\CoreService;
 
 if ( ! function_exists( 'array_insert' ) ) {
@@ -91,4 +92,41 @@ function __m( $key, $namespace = 'default' )
     }
 
     return $key;
+}
+
+
+/**
+ * Returns a route to which apply
+ * the filter "ns-route".
+ */
+function nsRoute( string $route, array $params = [] ): string
+{
+    return Hook::filter( 'ns-route', false, $route, $params ) ?: route( $route, $params );
+}
+
+/**
+ * Returns a route name to which apply
+ * the filter "ns-route-name".
+ */
+function nsRouteName( string $name ): string
+{
+    return Hook::filter( 'ns-route-name', $name );
+}
+
+/**
+ * Returns a filtred URL to which
+ * apply the filter "ns-url" hook.
+ */
+function nsUrl( ?string $url = null ): string
+{
+    return url( Hook::filter( 'ns-url', $url ) );
+}
+
+/**
+ * Returns a filtred URL to which
+ * apply the filter "ns-url" hook.
+ */
+function nsAsset( string $url ): string
+{
+    return url( Hook::filter( 'ns-asset', $url ) );
 }

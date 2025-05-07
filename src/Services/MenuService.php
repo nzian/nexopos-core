@@ -23,7 +23,7 @@ class MenuService
                         label: __( 'Home' ),
                         identifier: 'index',
                         permissions: [ 'read.dashboard' ],
-                        href: ns()->url( '/dashboard' )
+                        href: nsUrl( '/dashboard' )
                     )
                 ),
             ),
@@ -33,7 +33,7 @@ class MenuService
                 icon: 'la-photo-video',
                 identifier: 'medias',
                 permissions: [ 'nexopos.upload.medias', 'nexopos.see.medias' ],
-                href: ns()->url( '/dashboard/medias' ),
+                href: nsUrl( '/dashboard/medias' ),
             ),
             
             AsideMenu::menu(
@@ -45,12 +45,12 @@ class MenuService
                     AsideMenu::subMenu(
                         label: __( 'List' ),
                         identifier: 'modules',
-                        href: ns()->url( '/dashboard/modules' )
+                        href: nsUrl( '/dashboard/modules' )
                     ),
                     AsideMenu::subMenu(
                         label: __( 'Upload Module' ),
                         identifier: 'upload-module',
-                        href: ns()->url( '/dashboard/modules/upload' )
+                        href: nsUrl( '/dashboard/modules/upload' )
                     ),
                 ),
             ),
@@ -64,19 +64,19 @@ class MenuService
                         label: __( 'My Profile' ),
                         identifier: 'profile',
                         permissions: [ 'manage.profile' ],
-                        href: ns()->url( '/dashboard/users/profile' )
+                        href: nsUrl( '/dashboard/users/profile' )
                     ),
                     AsideMenu::subMenu(
                         label: __( 'Users List' ),
                         identifier: 'users',
                         permissions: [ 'read.users' ],
-                        href: ns()->url( '/dashboard/users' )
+                        href: nsUrl( '/dashboard/users' )
                     ),
                     AsideMenu::subMenu(
                         label: __( 'Create User' ),
                         identifier: 'create-user',
                         permissions: [ 'create.users' ],
-                        href: ns()->url( '/dashboard/users/create' )
+                        href: nsUrl( '/dashboard/users/create' )
                     ),
                 ),
             ),
@@ -90,19 +90,19 @@ class MenuService
                         label: __( 'Roles' ),
                         identifier: 'all-roles',
                         permissions: [ 'read.roles' ],
-                        href: ns()->url( '/dashboard/users/roles' )
+                        href: nsUrl( '/dashboard/users/roles' )
                     ),
                     AsideMenu::subMenu(
                         label: __( 'Create Roles' ),
                         identifier: 'create-role',
                         permissions: [ 'create.roles' ],
-                        href: ns()->url( '/dashboard/users/roles/create' )
+                        href: nsUrl( '/dashboard/users/roles/create' )
                     ),
                     AsideMenu::subMenu(
                         label: __( 'Permissions Manager' ),
                         identifier: 'permissions',
                         permissions: [ 'update.roles' ],
-                        href: ns()->url( '/dashboard/users/roles/permissions-manager' )
+                        href: nsUrl( '/dashboard/users/roles/permissions-manager' )
                     ),
                 ),
             ),            
@@ -115,17 +115,17 @@ class MenuService
                     AsideMenu::subMenu(
                         label: __( 'General' ),
                         identifier: 'general',
-                        href: ns()->url( '/dashboard/settings/general' )
+                        href: nsUrl( '/dashboard/settings/general' )
                     ),
                     AsideMenu::subMenu(
                         label: __( 'Reset' ),
                         identifier: 'reset',
-                        href: ns()->url( '/dashboard/settings/reset' )
+                        href: nsUrl( '/dashboard/settings/reset' )
                     ),
                     AsideMenu::subMenu(
                         label: __( 'About' ),
                         identifier: 'about',
-                        href: ns()->url( '/dashboard/settings/about' )
+                        href: nsUrl( '/dashboard/settings/about' )
                     ),
                 ),
             ),

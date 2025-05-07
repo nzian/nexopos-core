@@ -13,7 +13,6 @@ class ResetController extends DashboardController
 {
     public function __construct(
         protected ResetService $resetService,
-        protected DemoService $demoService,
         protected DateService $dateService,
         protected SetupService $setupService
     ) {
@@ -28,17 +27,6 @@ class ResetController extends DashboardController
     public function truncateWithDemo( Request $request )
     {
         $this->resetService->softReset( $request );
-
-        switch ( $request->input( 'mode' ) ) {
-            case 'wipe_plus_grocery':
-                $this->demoService->run( $request->all() );
-                break;
-            default:
-                $this->resetService->handleCustom(
-                    $request->all()
-                );
-                break;
-        }
 
         return [
             'status' => 'success',

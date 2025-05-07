@@ -1,16 +1,23 @@
 <?php
 namespace Ns\Console\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Ns\Services\SetupService;
 
 class InstallCommand extends Command
 {
-    protected $signature = 'ns:install {--force} {--filesystem} {--views}';
+    protected $signature = 'ns:install {--force} {--routes} {--filesystem} {--views}';
 
     protected $description = 'Install NexoPOS required files and configurations.';
 
     public function handle()
+    {
+        $this->handleFileSystem();
+        $this->handleApiRoutes();
+    }
+
+    private function handleFileSystem()
     {
         $setupService   =   app()->make( SetupService::class );
 
@@ -55,5 +62,37 @@ class InstallCommand extends Command
 
             $this->info( 'Filesystem registered' );
         }
+    }
+
+    private function handleApiRoutes()
+    {
+        if ( ! $this->option( 'routes' ) ) {
+            return;
+        }
+
+        $apiFile    =   base_path( 'routes/api.php' );
+
+        if ( ! file_exists( $apiFile ) ) {
+            return $this->error( __( 'An api file was found. Make sure to create one and try again.' ) );
+        }
+
+        $apiContent     =   file_get_contents( $apiFile );
+
+        if ( str_contains( $apiContent, 'Ns\\Events\\LoadApiRouteEvent' ) ) {
+            $this->info( 'Api routes already registered' );
+            return;
+        }
+
+        // now we'll add a new line at the end of the file and before the closing php tag
+        $apiContent     =   str_replace( '?>', '', $apiContent );
+        $apiContent     .=   "\n\n";
+        $apiContent     .=   "// NexoPOS API routes\n";
+        $apiContent     .=   "Ns\\Events\\LoadApiRouteEvent::dispatch();\n";
+        $apiContent     .=   "\n\n";
+
+        // now we'll add the new content to the file
+        file_put_contents( $apiFile, $apiContent );
+
+        $this->info( 'Registering NexoPOS API routes' );
     }
 }

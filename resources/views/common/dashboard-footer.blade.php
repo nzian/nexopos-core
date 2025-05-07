@@ -1,8 +1,8 @@
 <?php
 
-use App\Services\Options;
-use App\Classes\Output;
-use App\Classes\Hook;
+use Ns\Services\Options;
+use Ns\Classes\Output;
+use Ns\Classes\Hook;
 use Illuminate\Support\Facades\Cookie;
 
 $options            =   app()->make( Options::class );

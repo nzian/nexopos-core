@@ -4,12 +4,12 @@ namespace Ns\Services;
 
 use Ns\Classes\Cache;
 use Ns\Classes\XMLParser;
-use NsEvents\ModulesAfterDisabledEvent;
-use NsEvents\ModulesAfterEnabledEvent;
-use NsEvents\ModulesAfterRemovedEvent;
-use NsEvents\ModulesBeforeDisabledEvent;
-use NsEvents\ModulesBeforeEnabledEvent;
-use NsEvents\ModulesBeforeRemovedEvent;
+use Ns\Events\ModulesAfterDisabledEvent;
+use Ns\Events\ModulesAfterEnabledEvent;
+use Ns\Events\ModulesAfterRemovedEvent;
+use Ns\Events\ModulesBeforeDisabledEvent;
+use Ns\Events\ModulesBeforeEnabledEvent;
+use Ns\Events\ModulesBeforeRemovedEvent;
 use Ns\Exceptions\MissingDependencyException;
 use Ns\Exceptions\ModuleVersionMismatchException;
 use Ns\Exceptions\NotAllowedException;

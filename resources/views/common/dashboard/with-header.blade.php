@@ -1,5 +1,5 @@
 <?php
-use App\Classes\Hook;
+use Ns\Classes\Hook;
 ?>
 <div>
     @include( Hook::filter( 'ns-dashboard-header-file', 'ns::common/dashboard-header' ) )

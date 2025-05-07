@@ -41,7 +41,7 @@ export default {
         popupResolver,
         loadDriverStatusFields() {
             /**
-             * The identifier "driver-status-fields" is defined on the App\Fields\DriverStatusFields class.
+             * The identifier "driver-status-fields" is defined on the Ns\Fields\DriverStatusFields class.
              */
             nsHttpClient.get( '/api/fields/driver-status-fields' ).subscribe({
                 next: fields => {

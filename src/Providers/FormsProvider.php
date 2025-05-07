@@ -52,7 +52,7 @@ class FormsProvider extends ServiceProvider
          * set to true
          */
         $this->autoloadFields(
-            path: app_path( 'Fields' ),
+            path: __DIR__ . '/../Fields',
             classRoot: 'Ns\\Fields\\'
         );
         

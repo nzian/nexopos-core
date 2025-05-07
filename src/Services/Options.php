@@ -3,7 +3,6 @@
 namespace Ns\Services;
 
 use Ns\Models\Option;
-use Ns\Models\PaymentType;
 
 class Options
 {
@@ -30,18 +29,7 @@ class Options
     {
         Option::truncate();
 
-        $defaultOptions = [
-            'ns_registration_enabled' => 'no',
-            'ns_store_name' => 'NexoPOS',
-            'ns_pos_allow_decimal_quantities' => 'yes',
-            'ns_pos_quick_product' => 'yes',
-            'ns_pos_show_quantity' => 'yes',
-            'ns_currency_precision' => 2,
-            'ns_pos_hide_empty_categories' => 'yes',
-            'ns_pos_unit_price_ediable' => 'yes',
-            'ns_pos_order_types' => [ 'takeaway', 'delivery' ],
-            'ns_pos_registers_default_change_payment_type' => PaymentType::where( 'identifier', 'cash-payment' )->first()?->id ?? 1,
-        ];
+        $defaultOptions = [];
 
         $options = array_merge( $defaultOptions, $options );
 

@@ -3,16 +3,9 @@
 namespace Ns\Services;
 
 use Ns\Classes\Hook;
-use Ns\User;
-use Ns\UserWidget;
-use NsWidgets\BestCashiersWidget;
-use NsWidgets\BestCustomersWidget;
-use NsWidgets\ExpenseCardWidget;
-use NsWidgets\IncompleteSaleCardWidget;
-use NsWidgets\OrdersChartWidget;
-use NsWidgets\OrdersSummaryWidget;
-use NsWidgets\ProfileWidget;
-use NsWidgets\SaleCardWidget;
+use Ns\Models\User;
+use Ns\Models\UserWidget;
+use Ns\Widgets\ProfileWidget;
 use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -57,14 +50,7 @@ class WidgetService
     public function __construct( private UsersService $usersService )
     {
         $this->widgets = Hook::filter( 'ns-dashboard-widgets', [
-            IncompleteSaleCardWidget::class,
-            ExpenseCardWidget::class,
-            SaleCardWidget::class,
-            BestCustomersWidget::class,
             ProfileWidget::class,
-            OrdersChartWidget::class,
-            OrdersSummaryWidget::class,
-            BestCashiersWidget::class,
         ] );
     }
 

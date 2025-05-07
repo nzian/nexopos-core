@@ -23,31 +23,55 @@ return new class extends Migration
      */
     public function up()
     {
-        if ( ! Schema::hasTable( 'nexopos_users' ) ) {
-            Schema::create( 'nexopos_users', function ( Blueprint $table ) {
-                $table->increments( 'id' );
-                $table->string( 'username' );
-                $table->boolean( 'active' )->default( false );
-                $table->integer( 'author' )->nullable(); // the first user is created by him self
-                $table->string( 'email' )->unique();
-                $table->string( 'password' );
-                $table->integer( 'group_id' )->nullable();
-                $table->string( 'first_name' )->nullable();
-                $table->string( 'last_name' )->nullable();
-                $table->string( 'gender' )->nullable();
-                $table->string( 'phone' )->nullable();
-                $table->string( 'pobox' )->nullable();
-                $table->datetime( 'activation_expiration' )->nullable();
-                $table->integer( 'total_sales_count' )->default( 0 );
-                $table->float( 'total_sales', 18, 5 )->default( 0 );
-                $table->datetime( 'birth_date' )->nullable();
-                $table->float( 'purchases_amount' )->default( 0 );
-                $table->float( 'owed_amount' )->default( 0 );
-                $table->float( 'credit_limit_amount' )->default( 0 );
-                $table->float( 'account_amount' )->default( 0 );
-                $table->string( 'activation_token' )->nullable();
-                $table->rememberToken();
-                $table->timestamps();
+        if (Schema::hasTable('users')) {
+            Schema::table( 'users', function ( Blueprint $table ) {
+                if ( ! Schema::hasColumn( 'users', 'first_name' ) ) {
+                    $table->string( 'first_name' )->nullable();
+                }
+                
+                if ( ! Schema::hasColumn( 'users', 'username' ) ) {
+                    $table->string( 'username' )->nullable();
+                }
+
+                if ( ! Schema::hasColumn( 'users', 'last_name' ) ) {
+                    $table->string( 'last_name' )->nullable();
+                }
+
+                if ( ! Schema::hasColumn( 'users', 'gender' ) ) {
+                    $table->string( 'gender' )->nullable();
+                }
+
+                if ( ! Schema::hasColumn( 'users', 'phone' ) ) {
+                    $table->string( 'phone' )->nullable();
+                }
+
+                if ( ! Schema::hasColumn( 'users', 'pobox' ) ) {
+                    $table->string( 'pobox' )->nullable();
+                }
+
+                if ( ! Schema::hasColumn( 'users', 'activation_expiration' ) ) {
+                    $table->datetime( 'activation_expiration' )->nullable();
+                }
+
+                if ( ! Schema::hasColumn( 'users', 'activation_token' ) ) {
+                    $table->string( 'activation_token' )->nullable();
+                }
+
+                if ( ! Schema::hasColumn( 'users', 'birth_date' ) ) {
+                    $table->datetime( 'birth_date' )->nullable();
+                }
+
+                if ( ! Schema::hasColumn( 'users', 'active' ) ) {
+                    $table->boolean( 'active' )->default( false );
+                }
+
+                if ( ! Schema::hasColumn( 'users', 'author' ) ) {
+                    $table->integer( 'author' )->nullable();
+                }
+
+                if ( ! Schema::hasColumn( 'users', 'store_id' ) ) {
+                    $table->string( 'name' )->nullable()->change();
+                }
             } );
         }
     }
@@ -59,6 +83,39 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists( 'nexopos_users' );
+        if (Schema::hasTable('users')) {
+            Schema::table('users', function (Blueprint $table) {
+                if (Schema::hasColumn('users', 'first_name')) {
+                    $table->dropColumn('first_name');
+                }
+                if (Schema::hasColumn('users', 'last_name')) {
+                    $table->dropColumn('last_name');
+                }
+                if (Schema::hasColumn('users', 'gender')) {
+                    $table->dropColumn('gender');
+                }
+                if (Schema::hasColumn('users', 'phone')) {
+                    $table->dropColumn('phone');
+                }
+                if (Schema::hasColumn('users', 'pobox')) {
+                    $table->dropColumn('pobox');
+                }
+                if (Schema::hasColumn('users', 'activation_expiration')) {
+                    $table->dropColumn('activation_expiration');
+                }
+                if (Schema::hasColumn('users', 'activation_token')) {
+                    $table->dropColumn('activation_token');
+                }
+                if (Schema::hasColumn('users', 'birth_date')) {
+                    $table->dropColumn('birth_date');
+                }
+                if (Schema::hasColumn('users', 'active')) {
+                    $table->dropColumn('active');
+                }
+                if (Schema::hasColumn('users', 'author')) {
+                    $table->dropColumn('author');
+                }
+            });
+        }
     }
 };

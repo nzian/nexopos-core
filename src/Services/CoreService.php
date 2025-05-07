@@ -3,15 +3,14 @@
 namespace Ns\Services;
 
 use Ns\Classes\Hook;
-use Ns\Enums\NotificationsEnum;
 use Ns\Exceptions\NotEnoughPermissionException;
 use Ns\Exceptions\NotFoundException;
-use NsJobs\CheckTaskSchedulingConfigurationJob;
-use Ns\Migration;
-use Ns\Notification;
-use Ns\Permission;
-use Ns\Role;
-use Ns\User;
+use Ns\Jobs\CheckTaskSchedulingConfigurationJob;
+use Ns\Models\Migration;
+use Ns\Models\Notification;
+use Ns\Models\Permission;
+use Ns\Models\Role;
+use Ns\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -47,42 +46,6 @@ class CoreService
         public MediaService $mediaService,
     ) {
         // ...
-    }
-
-    /**
-     * Returns a route to which apply
-     * the filter "ns-route".
-     */
-    public function route( string $route, array $params = [] ): string
-    {
-        return Hook::filter( 'ns-route', false, $route, $params ) ?: route( $route, $params );
-    }
-
-    /**
-     * Returns a route name to which apply
-     * the filter "ns-route-name".
-     */
-    public function routeName( string $name ): string
-    {
-        return Hook::filter( 'ns-route-name', $name );
-    }
-
-    /**
-     * Returns a filtred URL to which
-     * apply the filter "ns-url" hook.
-     */
-    public function url( ?string $url = null ): string
-    {
-        return url( Hook::filter( 'ns-url', $url ) );
-    }
-
-    /**
-     * Returns a filtred URL to which
-     * apply the filter "ns-url" hook.
-     */
-    public function asset( string $url ): string
-    {
-        return url( Hook::filter( 'ns-asset', $url ) );
     }
 
     /**
@@ -230,7 +193,7 @@ class CoreService
     {
         if ( ns()->option->get( 'ns_jobs_last_activity', false ) === false ) {
             /**
-             * @var NotificationsEnum;
+             * @var Notification;
              */
             $this->emitNotificationForTaskSchedulingMisconfigured();
 
@@ -298,7 +261,7 @@ class CoreService
          * @var NotificationService
          */
         $notification = app()->make( NotificationService::class );
-        $notification->deleteHavingIdentifier( NotificationsEnum::NSCRONDISABLED );
+        $notification->deleteHavingIdentifier( Notification::NSCRONDISABLED );
 
         ns()->option->set( 'ns_cron_last_activity', ns()->date->toDateTimeString() );
     }
@@ -327,7 +290,7 @@ class CoreService
     public function checkSymbolicLinks(): void
     {
         if ( ! file_exists( public_path( 'storage' ) ) ) {
-            $notification = Notification::where( 'identifier', NotificationsEnum::NSSYMBOLICLINKSMISSING )
+            $notification = Notification::where( 'identifier', Notification::NSSYMBOLICLINKSMISSING )
                 ->first();
 
             if ( ! $notification instanceof Notification ) {
@@ -336,7 +299,7 @@ class CoreService
                 $notification = app()->make( NotificationService::class );
                 $notification->create(
                     title: __( 'Symbolic Links Missing' ),
-                    identifier: NotificationsEnum::NSSYMBOLICLINKSMISSING,
+                    identifier: Notification::NSSYMBOLICLINKSMISSING,
                     source: 'system',
                     url: 'https://my.nexopos.com/en/documentation/troubleshooting/broken-media-images?utm_source=nexopos&utm_campaign=warning&utm_medium=app',
                     description: __( 'The Symbolic Links to the public directory is missing. Your medias might be broken and not display.' ),
@@ -348,7 +311,7 @@ class CoreService
              * there is some records, to avoid the request triggered for no reason.
              */
             if ( ns()->option->get( 'ns_has_symbolic_links_missing_notifications' ) ) {
-                Notification::where( 'identifier', NotificationsEnum::NSSYMBOLICLINKSMISSING )->delete();
+                Notification::where( 'identifier', Notification::NSSYMBOLICLINKSMISSING )->delete();
             }
         }
     }
@@ -362,7 +325,7 @@ class CoreService
         $notification = app()->make( NotificationService::class );
         $notification->create(
             title: __( 'Cron Disabled' ),
-            identifier: NotificationsEnum::NSCRONDISABLED,
+            identifier: Notification::NSCRONDISABLED,
             source: 'system',
             url: 'https://my.nexopos.com/en/documentation/troubleshooting/workers-or-async-requests-disabled?utm_source=nexopos&utm_campaign=warning&utm_medium=app',
             description: __( "Cron jobs aren't configured correctly on NexoPOS. This might restrict necessary features. Click here to learn how to fix it." ),
@@ -378,7 +341,7 @@ class CoreService
         $notification = app()->make( NotificationService::class );
         $notification->create(
             title: __( 'Task Scheduling Disabled' ),
-            identifier: NotificationsEnum::NSWORKERDISABLED,
+            identifier: Notification::NSWORKERDISABLED,
             source: 'system',
             url: 'https://my.nexopos.com/en/documentation/troubleshooting/workers-or-async-requests-disabled?utm_source=nexopos&utm_campaign=warning&utm_medium=app',
             description: __( 'NexoPOS is unable to schedule background tasks. This might restrict necessary features. Click here to learn how to fix it.' ),

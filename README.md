@@ -29,3 +29,24 @@ Before proceeding it's also required to publis the configuration that include ba
 php artisan vendor:publish --tag nexopos-config
 php artisan vendor:publish --tag nexopos-assets
 ```
+
+### Install Dependency
+
+This product uses various dependencies which has their own configuration. 
+
+#### Laravel Sanctum
+As the project relies on Laravel Sanctum, you need to run this command to install (publish) Larvel Sanctum configuration.
+Note that the package is already a dependency.
+
+```
+php artisan php artisan install:api
+```
+
+## Authentication
+NexoPOS Core uses it's own implementation of authentication. While it's created on top of laravel, it provides more features. Therefore, it's recommended to change the model provider on the config/auth.php. If you're using Laravel 12, you only need to set it using "AUTH_MODEL" on the environment file.
+
+```
+AUTH_MODEL = Ns\Models\User;
+```
+
+- Sanctum (publish vendors)

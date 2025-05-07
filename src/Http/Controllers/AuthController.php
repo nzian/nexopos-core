@@ -39,14 +39,14 @@ class AuthController extends Controller
 
     public function signIn()
     {
-        return view( Hook::filter( 'ns-views:pages.sign-in', 'pages.auth.sign-in' ), [
+        return view( Hook::filter( 'ns-views:pages.sign-in', 'ns::pages.auth.sign-in' ), [
             'title' => __( 'Sign In — NexoPOS' ),
         ] );
     }
 
     public function signUp()
     {
-        return view( Hook::filter( 'ns-views:pages.sign-up', 'pages.auth.sign-up' ), [
+        return view( Hook::filter( 'ns-views:pages.sign-up', 'ns::pages.auth.sign-up' ), [
             'title' => __( 'Sign Up — NexoPOS' ),
         ] );
     }
@@ -58,7 +58,7 @@ class AuthController extends Controller
          * account ? Not possible.
          */
         if ( $user->active ) {
-            return redirect( ns()->route( 'ns.login' ) )->with( 'errorMessage', __( 'No activation is needed for this account.' ) );
+            return redirect( nsRoute( 'ns.login' ) )->with( 'errorMessage', __( 'No activation is needed for this account.' ) );
         }
 
         /**
@@ -66,7 +66,7 @@ class AuthController extends Controller
          * let's throw an exception.
          */
         if ( $user->activation_token !== $token || $user->activation_token === null ) {
-            return redirect( ns()->route( 'ns.login' ) )->with( 'errorMessage', __( 'Invalid activation token.' ) );
+            return redirect( nsRoute( 'ns.login' ) )->with( 'errorMessage', __( 'Invalid activation token.' ) );
         }
 
         /**
@@ -74,7 +74,7 @@ class AuthController extends Controller
          * the user to the login page with a message.
          */
         if ( ! ns()->date->lessThan( Carbon::parse( $user->activation_expiration ) ) ) {
-            return redirect( ns()->route( 'ns.login' ) )->with( 'errorMessage', __( 'The expiration token has expired.' ) );
+            return redirect( nsRoute( 'ns.login' ) )->with( 'errorMessage', __( 'The expiration token has expired.' ) );
         }
 
         $user->activation_expiration = null;
@@ -88,7 +88,7 @@ class AuthController extends Controller
          */
         UserAfterActivationSuccessfulEvent::dispatch( $user );
 
-        return redirect( ns()->route( 'ns.login' ) )->with( 'message', __( 'Your account is now activated.' ) );
+        return redirect( nsRoute( 'ns.login' ) )->with( 'message', __( 'Your account is now activated.' ) );
     }
 
     public function passwordLost()
@@ -128,7 +128,7 @@ class AuthController extends Controller
         $request->session()->flush();
         $request->cookie( 'nexopos_session', null, 0 );
 
-        return redirect( ns()->route( 'ns.dashboard.home' ) );
+        return redirect( nsRoute( 'ns.dashboard.home' ) );
     }
 
     public function updateDatabase()
@@ -167,7 +167,7 @@ class AuthController extends Controller
                 $validator = Validator::make( $request->all(), [] );
                 $validator->errors()->add( 'username', __( 'This account is disabled.' ) );
 
-                return redirect( ns()->route( 'ns.login' ) )->withErrors( $validator );
+                return redirect( nsRoute( 'ns.login' ) )->withErrors( $validator );
             }
 
             return redirect()->intended( Hook::filter( 'ns-login-redirect' ) );
@@ -177,7 +177,7 @@ class AuthController extends Controller
         $validator->errors()->add( 'username', __( 'Unable to find record having that username.' ) );
         $validator->errors()->add( 'password', __( 'Unable to find record having that password.' ) );
 
-        return redirect( ns()->route( 'ns.login' ) )->withErrors( $validator );
+        return redirect( nsRoute( 'ns.login' ) )->withErrors( $validator );
     }
 
     public function handleJsonRequests( $request, $attempt )
@@ -199,7 +199,7 @@ class AuthController extends Controller
             message: __( 'You have been successfully connected.' ),
             data: [
                 'redirectTo' => Hook::filter( 'ns-login-redirect',
-                    ( $intended ) === url( '/' ) ? ns()->route( 'ns.dashboard.home' ) : $intended,
+                    ( $intended ) === url( '/' ) ? nsRoute( 'ns.dashboard.home' ) : $intended,
                     redirect()->intended()->getTargetUrl() ? true : false
                 ),
             ]

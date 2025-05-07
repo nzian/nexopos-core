@@ -10,7 +10,7 @@ class PostTooLargeException extends ExceptionsPostTooLargeException
     public function render( $request )
     {
         if ( ! $request->expectsJson() ) {
-            return response()->view( 'pages.errors.not-allowed', [
+            return response()->view( 'ns::pages.errors.not-allowed', [
                 'title' => __( 'Post Too Large' ),
                 'message' => __( 'The submitted request is more large than expected. Consider increasing your "post_max_size" on your PHP.ini' ),
                 'back' => Helper::getValidPreviousUrl( $request ),

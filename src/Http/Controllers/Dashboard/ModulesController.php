@@ -32,7 +32,7 @@ class ModulesController extends DashboardController
 
     public function listModules( $page = '' )
     {
-        return View::make( 'pages.dashboard.modules.list', [
+        return View::make( 'ns::pages.dashboard.modules.list', [
             'title' => __( 'Modules List' ),
             'description' => __( 'List all available modules.' ),
         ] );
@@ -109,7 +109,7 @@ class ModulesController extends DashboardController
 
     public function showUploadModule()
     {
-        return View::make( 'pages.dashboard.modules.upload', [
+        return View::make( 'ns::pages.dashboard.modules.upload', [
             'title' => __( 'Upload A Module' ),
             'description' => __( 'Extends NexoPOS features with some new modules.' ),
         ] );

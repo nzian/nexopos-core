@@ -22,6 +22,10 @@ export default ({ mode }) => {
                 host: 'localhost',
             },
             https: true,
+            cors: {
+                origin: '*',
+                credentials: true,
+            },
         },
         resolve: {
             alias: [

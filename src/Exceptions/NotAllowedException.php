@@ -21,7 +21,7 @@ class NotAllowedException extends Exception
     public function render( $request )
     {
         if ( ! $request->expectsJson() ) {
-            return response()->view( 'pages.errors.not-allowed', [
+            return response()->view( 'ns::pages.errors.not-allowed', [
                 'title' => __( 'Not Allowed Action' ),
                 'message' => $this->getMessage(),
                 'back' => Helper::getValidPreviousUrl( $request ),

@@ -37,7 +37,7 @@ class User extends Authenticatable
         Notifiable,
         NsDependable;
 
-    protected $table = 'nexopos_users';
+    protected $table = 'users';
 
     protected $casts = [
         'active' => 'boolean',

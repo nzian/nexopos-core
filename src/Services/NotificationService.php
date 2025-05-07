@@ -2,10 +2,10 @@
 
 namespace Ns\Services;
 
-use NsEvents\NotificationDeletedEvent;
-use Ns\Notification;
-use Ns\Role;
-use Ns\User;
+use Ns\Events\NotificationDeletedEvent;
+use Ns\Models\Notification;
+use Ns\Models\Role;
+use Ns\Models\User;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;

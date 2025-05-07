@@ -2,9 +2,8 @@
 
 namespace Ns\Services;
 
-use NsEvents\UserAfterActivationSuccessfulEvent;
-use Ns\PaymentType;
-use Ns\User;
+use Ns\Events\UserAfterActivationSuccessfulEvent;
+use Ns\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
@@ -156,59 +155,6 @@ class SetupService
         App::setLocale( $configuredLanguage );
 
         /**
-         * We're running this simple migration call to ensure
-         * default tables are created. Those table are located at the
-         * root of the database folder.
-         */
-        Artisan::call( 'migrate', [
-            '--force' => true,
-        ] );
-
-        /**
-         * NexoPOS uses Sanctum, we're making sure to publish the package.
-         */
-        Artisan::call( 'vendor:publish', [
-            '--force' => true,
-            '--provider' => 'Laravel\Sanctum\SanctumServiceProvider',
-        ] );
-
-        Artisan::call( 'ns:translate', [
-            '--symlink' => true,
-        ] );
-
-        /**
-         * we'll register all "update" migration
-         * as already run as these migration are supposed
-         * to be integrated on "create" files.
-         */
-        ns()->update
-            ->getMigrations(
-                directories: [ 'core', 'create' ],
-                ignoreMigrations: true
-            )
-            ->each( function ( $file ) {
-                ns()->update->executeMigrationFromFileName( $file );
-            } );
-
-        /**
-         * The update migrations should'nt be executed.
-         * This should improve the speed during the installation.
-         */
-        ns()->update
-            ->getMigrations(
-                directories: [ 'update' ],
-                ignoreMigrations: true
-            )
-            ->each( function ( $file ) {
-                ns()->update->assumeExecuted( $file );
-            } );
-
-        /**
-         * clear all cache
-         */
-        Artisan::call( 'cache:clear' );
-
-        /**
          * From this moment, new permissions has been created.
          * However Laravel gates aren't aware of them. We'll fix this here.
          */
@@ -234,9 +180,6 @@ class SetupService
 
         UserAfterActivationSuccessfulEvent::dispatch( $user );
 
-        $this->createDefaultPayment( $user );
-        $this->createDefaultAccounting();
-
         $this->options = app()->make( Options::class );
         $this->options->setDefault();
         $this->options->set( 'ns_store_language', $configuredLanguage );
@@ -245,43 +188,6 @@ class SetupService
             'status' => 'success',
             'message' => __( 'NexoPOS has been successfully installed.' ),
         ];
-    }
-
-    public function createDefaultAccounting()
-    {
-        /**
-         * @var TransactionService $service
-         */
-        $service = app()->make( TransactionService::class );
-        $service->createDefaultAccounts();
-    }
-
-    public function createDefaultPayment( $user )
-    {
-        /**
-         * let's create default payment
-         * for the system
-         */
-        $cashPaymentType = new PaymentType;
-        $cashPaymentType->label = __( 'Cash' );
-        $cashPaymentType->identifier = 'cash-payment';
-        $cashPaymentType->readonly = true;
-        $cashPaymentType->author = $user->id;
-        $cashPaymentType->save();
-
-        $bankPaymentType = new PaymentType;
-        $bankPaymentType->label = __( 'Bank Payment' );
-        $bankPaymentType->identifier = 'bank-payment';
-        $bankPaymentType->readonly = true;
-        $bankPaymentType->author = $user->id;
-        $bankPaymentType->save();
-
-        $customerAccountType = new PaymentType;
-        $customerAccountType->label = __( 'Customer Account' );
-        $customerAccountType->identifier = 'account-payment';
-        $customerAccountType->readonly = true;
-        $customerAccountType->author = $user->id;
-        $customerAccountType->save();
     }
 
     public function testDBConnexion()

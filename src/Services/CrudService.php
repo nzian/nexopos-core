@@ -6,11 +6,11 @@ use NsCasts\DateCast;
 use Ns\Classes\CrudScope;
 use Ns\Classes\Cache;
 use Ns\Classes\Output;
-use NsEvents\CrudActionEvent;
-use NsEvents\CrudHookEvent;
-use NsEvents\CrudReflectionInitialized;
+use Ns\Events\CrudActionEvent;
+use Ns\Events\CrudHookEvent;
+use Ns\Events\CrudReflectionInitialized;
 use Ns\Exceptions\NotAllowedException;
-use NsTraits\NsForms;
+use Ns\Traits\NsForms;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\View\View as ContractView;
@@ -1196,7 +1196,7 @@ class CrudService
 
         $labels = Hook::filter( $instance::method( 'getLabels' ), $instance->getLabels() );
 
-        return View::make( 'pages.dashboard.crud.table', array_merge( [
+        return View::make( 'ns::pages.dashboard.crud.table', array_merge( [
             /**
              * that displays the title on the page.
              * It fetches the value from the labels
@@ -1212,7 +1212,7 @@ class CrudService
             /**
              * This create the src URL using the "IDENTIIFER".
              */
-            'src' => ns()->url( '/api/crud/' . $instance::IDENTIFIER ),
+            'src' => nsUrl( '/api/crud/' . $instance::IDENTIFIER ),
 
             /**
              * This pull the creation link. That link should takes the user
@@ -1261,7 +1261,7 @@ class CrudService
          * use crud form to render a valid form.
          * "view" on the $config might be used to use a custom view file.
          */
-        return View::make( $config[ 'view' ] ?? 'pages.dashboard.crud.form', self::getFormConfig(
+        return View::make( $config[ 'view' ] ?? 'ns::pages.dashboard.crud.form', self::getFormConfig(
             config: $config,
             entry: $entry
         ) );
@@ -1345,7 +1345,7 @@ class CrudService
              * this automatically build a source URL based on the identifier
              * provided. But can be overwritten with the config.
              */
-            'src' => $config['src'] ?? ( ns()->url( '/api/crud/' . $instance->getIdentifier() . '/' . ( ! empty( $entry ) ? 'form-config/' . $entry->id : 'form-config' ) ) ),
+            'src' => $config['src'] ?? ( nsUrl( '/api/crud/' . $instance->getIdentifier() . '/' . ( ! empty( $entry ) ? 'form-config/' . $entry->id : 'form-config' ) ) ),
 
             /**
              * this use the built in links to create a return URL.
