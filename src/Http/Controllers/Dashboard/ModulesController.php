@@ -131,12 +131,12 @@ class ModulesController extends DashboardController
              * if the module upload was successful
              */
             if ( $result[ 'status' ] === 'success' ) {
-                return redirect( ns()->route( 'ns.dashboard.modules-list' ) )->with( $result );
+                return redirect( nsRoute( 'ns.dashboard.modules-list' ) )->with( $result );
             } else {
                 $validator = Validator::make( $request->all(), [] );
                 $validator->errors()->add( 'module', $result[ 'message' ] );
 
-                return redirect( ns()->route( 'ns.dashboard.modules-upload' ) )->withErrors( $validator );
+                return redirect( nsRoute( 'ns.dashboard.modules-upload' ) )->withErrors( $validator );
             }
         }
 

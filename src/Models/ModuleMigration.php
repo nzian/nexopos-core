@@ -12,7 +12,7 @@ class ModuleMigration extends NsModel
 {
     use HasFactory;
 
-    protected $table = 'nexopos_' . 'modules_migrations';
+    protected $table = 'modules_migrations';
 
     public $timestamps = false;
 

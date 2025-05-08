@@ -28,9 +28,9 @@ export default {
 <style scoped>
 @reference "&/css/app.css";
     .light .ns-drop-zone {
-        @apply border-2 border-dashed border-slate-600
+        @apply border-2 border-dashed border-slate-600;
     }
     .dark .ns-drop-zone {
-        @apply border-2 border-dashed border-slate-400
+        @apply border-2 border-dashed border-slate-400;
     }
 </style>

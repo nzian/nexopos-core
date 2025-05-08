@@ -3,7 +3,7 @@
 namespace Ns\Services;
 
 use Ns\Classes\Hook;
-use Ns\Media;
+use Ns\Models\Media;
 use Exception;
 use Gumlet\ImageResize;
 use Illuminate\Support\Collection;

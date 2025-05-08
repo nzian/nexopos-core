@@ -20,7 +20,7 @@ class CheckMigrationStatus
         if ( ns()->update->getMigrations()->count() > 0 ) {
             session( [ 'after_update' => url()->current() ] );
 
-            return redirect( ns()->route( 'ns.database-update' ) );
+            return redirect( nsRoute( 'ns.database-update' ) );
         }
 
         if ( Helper::installed() ) {
@@ -32,7 +32,7 @@ class CheckMigrationStatus
             $total = $modules->filter( fn( $module ) => count( $module[ 'migrations' ] ) > 0 );
 
             if ( $total->count() > 0 ) {
-                return redirect( ns()->route( 'ns.database-update' ) );
+                return redirect( nsRoute( 'ns.database-update' ) );
             }
         }
 

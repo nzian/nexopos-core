@@ -15,7 +15,7 @@ class Option extends NsModel
 {
     use HasFactory;
 
-    protected $table = 'nexopos_options';
+    protected $table = 'options';
 
     public $parsed = false;
 

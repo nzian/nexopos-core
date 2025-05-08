@@ -16,8 +16,8 @@ class ResetService
     public function softReset()
     {
         $tables = Hook::filter( 'ns-wipeable-tables', [
-            'nexopos_medias',
-            'nexopos_notifications',
+            'medias',
+            'notifications',
         ] );
 
         foreach ( $tables as $table ) {

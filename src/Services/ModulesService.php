@@ -13,16 +13,14 @@ use Ns\Events\ModulesBeforeRemovedEvent;
 use Ns\Exceptions\MissingDependencyException;
 use Ns\Exceptions\ModuleVersionMismatchException;
 use Ns\Exceptions\NotAllowedException;
-use Ns\ModuleMigration;
+use Ns\Models\ModuleMigration;
 use Error as GlobalError;
 use Exception;
 use Illuminate\Contracts\View\View as ViewView;
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -62,6 +60,10 @@ class ModulesService
          */
         if ( ! is_dir( base_path( 'modules' ) ) ) {
             mkdir( base_path( 'modules' ) );
+        }
+
+        if ( ! is_dir( public_path( 'modules' ) ) ) {
+            mkdir( public_path( 'modules' ) );
         }
 
         /**
@@ -1705,7 +1707,7 @@ class ModulesService
             Storage::disk( 'ns-modules' )->put( $config[ 'namespace' ] . DIRECTORY_SEPARATOR . $config[ 'namespace' ] . 'Module.php', $this->streamContent( 'main', $config ) );
             Storage::disk( 'ns-modules' )->put( $config[ 'namespace' ] . DIRECTORY_SEPARATOR . 'Events' . DIRECTORY_SEPARATOR . $config[ 'namespace' ] . 'Event.php', $this->streamContent( 'event', $config ) );
             Storage::disk( 'ns-modules' )->put( $config[ 'namespace' ] . DIRECTORY_SEPARATOR . 'Public' . DIRECTORY_SEPARATOR . 'index.html', '<h1>Silence is golden !</h1>' );
-            Storage::disk( 'ns-modules' )->put( $config[ 'namespace' ] . DIRECTORY_SEPARATOR . 'Migrations' . DIRECTORY_SEPARATOR . 'DatabaseMigration.php', View::make( 'generate.modules.migration', [
+            Storage::disk( 'ns-modules' )->put( $config[ 'namespace' ] . DIRECTORY_SEPARATOR . 'Migrations' . DIRECTORY_SEPARATOR . 'DatabaseMigration.php', View::make( 'ns::generate.modules.migration', [
                 'module' => $config,
                 'migration' => 'DatabaseMigration',
             ] )->render() );
@@ -1749,17 +1751,17 @@ class ModulesService
     {
         switch ( $content ) {
             case 'main':
-                return view( 'generate.modules.main', [
+                return view( 'ns::generate.modules.main', [
                     'module' => $config,
                 ] );
                 break;
             case 'config':
-                return view( 'generate.modules.config', [
+                return view( 'ns::generate.modules.config', [
                     'module' => $config,
                 ] );
                 break;
             case 'event':
-                return view( 'generate.modules.event', [
+                return view( 'ns::generate.modules.event', [
                     'module' => $config,
                     'name' => $config[ 'namespace' ] . 'Event',
                 ] );

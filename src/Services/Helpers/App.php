@@ -26,7 +26,7 @@ trait App
     {
         try {
             if ( DB::connection()->getPdo() ) {
-                return Schema::hasTable( 'nexopos_options' ) && Schema::hasTable( 'nexopos_roles' );
+                return Schema::hasTable( 'options' ) && Schema::hasTable( 'roles' );
             }
 
             return false;

@@ -23,8 +23,8 @@ return new class extends Migration
      */
     public function up()
     {
-        if ( ! Schema::hasTable( 'nexopos_modules_migrations' ) ) {
-            Schema::create( 'nexopos_modules_migrations', function ( Blueprint $table ) {
+        if ( ! Schema::hasTable( 'modules_migrations' ) ) {
+            Schema::create( 'modules_migrations', function ( Blueprint $table ) {
                 $table->id();
                 $table->string( 'namespace' );
                 $table->string( 'file' );
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists( 'nexopos_modules_migrations' );
+        Schema::dropIfExists( 'modules_migrations' );
     }
 };

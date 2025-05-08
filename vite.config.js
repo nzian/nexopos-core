@@ -1,13 +1,17 @@
 import { defineConfig, loadEnv } from 'vite';
 
-// import fs from 'fs';
+import { fileURLToPath } from 'node:url';
 import laravel from 'laravel-vite-plugin';
-import mkcert from 'vite-plugin-mkcert';
-import { resolve } from 'path';
-// import path from 'path';
+import path, { resolve } from 'node:path';
 import vuePlugin from '@vitejs/plugin-vue';
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from '@tailwindcss/vite';
 
+const Vue = fileURLToPath(
+	new URL(
+		'vue',
+		import.meta.url
+	)
+);
 
 export default ({ mode }) => {
     process.env = {...process.env, ...loadEnv(mode, process.cwd())};
@@ -22,59 +26,72 @@ export default ({ mode }) => {
                 host: 'localhost',
             },
             https: true,
-            cors: {
-                origin: '*',
-                credentials: true,
-            },
-        },
-        resolve: {
-            alias: [
-                {
-                    find: '&',
-                    replacement: resolve( __dirname, 'resources' ),
-                }, {
-                    find: '~',
-                    replacement: resolve( __dirname, 'resources/ts' ),
-                },
-            ]
         },
         plugins: [
             tailwindcss(),
+            vuePlugin(),
             laravel({
                 input: [
-                    './resources/ts/bootstrap.ts',
+                    'resources/ts/bootstrap.ts',
                     'resources/ts/app.ts',
                     'resources/ts/auth.ts',
                     'resources/ts/setup.ts',
                     'resources/ts/update.ts',
-                    'resources/ts/lang-loader.ts',
                     'resources/ts/dev.ts',
+                    'resources/ts/lang-loader.ts',
                     'resources/ts/popups.ts',
                     'resources/ts/widgets.ts',
                     'resources/ts/wizard.ts',
-    
-                    'resources/css/app.css',
+                    // 'resources/css/app.css',
                     'resources/css/grid.css',
                     'resources/css/animations.css',
                     'resources/css/fonts.css',
                     'resources/scss/line-awesome/1.3.0/scss/line-awesome.scss',
-
-                    // themes
                     'resources/css/light.css',
                     'resources/css/dark.css',
                     'resources/css/phosphor.css',
                 ],
-                refresh: true,
-            }),
-            mkcert(),
-            vuePlugin({
-                template: {
-                    transformAssetUrls: {
-                        base: null,
-                        includeAbsolute: false,
-                    },
-                },
-            }),
+                refresh: [ 
+                    'resources/**', 
+                ]
+            })
         ],
+        resolve: {
+            alias: [
+                {
+                    find: '&',
+                    replacement: resolve(__dirname, 'resources'),
+                }, {
+                    find: '~',
+                    replacement: resolve(__dirname, 'resources/ts'),
+                },
+            ]
+        },
+        build: {
+            outDir: 'public/build',
+            manifest: true,
+            // rollupOptions: {
+            //     input: [
+            //         'resources/ts/bootstrap.ts',
+            //         'resources/ts/app.ts',
+            //         'resources/ts/auth.ts',
+            //         'resources/ts/setup.ts',
+            //         'resources/ts/update.ts',
+            //         'resources/ts/dev.ts',
+            //         'resources/ts/lang-loader.ts',
+            //         'resources/ts/popups.ts',
+            //         'resources/ts/widgets.ts',
+            //         'resources/ts/wizard.ts',
+            //         'resources/css/app.css',
+            //         'resources/css/grid.css',
+            //         'resources/css/animations.css',
+            //         'resources/css/fonts.css',
+            //         'resources/scss/line-awesome/1.3.0/scss/line-awesome.scss',
+            //         'resources/css/light.css',
+            //         'resources/css/dark.css',
+            //         'resources/css/phosphor.css',
+            //     ],
+            // }
+        }        
     });
 }

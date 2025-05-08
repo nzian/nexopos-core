@@ -10,9 +10,8 @@ use Ns\Classes\CrudTable;
 use Ns\Classes\JsonResponse;
 use Ns\Events\UserAfterActivationSuccessfulEvent;
 use Ns\Exceptions\NotAllowedException;
-use Ns\Models\CustomerBillingAddress;
-use Ns\Models\CustomerGroup;
-use Ns\Models\CustomerShippingAddress;
+use Ns\Models\UserBillingAddress;
+use Ns\Models\UserShippingAddress;
 use Ns\Models\Role;
 use Ns\Models\User;
 use Ns\Services\CrudEntry;
@@ -43,7 +42,7 @@ class UserCrud extends CrudService
     /**
      * define the base table
      */
-    protected $table = 'nexopos_users';
+    protected $table = 'users';
 
     /**
      * base route name
@@ -73,8 +72,7 @@ class UserCrud extends CrudService
      */
     public $relations = [
         'leftJoin' => [
-            [ 'nexopos_customers_groups as group', 'nexopos_users.group_id', '=', 'group.id' ],
-            [ 'nexopos_users as author', 'nexopos_users.author', '=', 'author.id' ],
+            [ 'users as author', 'users.author', '=', 'author.id' ],
         ],
     ];
 
@@ -120,21 +118,17 @@ class UserCrud extends CrudService
         'phone',
         'gender',
         'pobox',
-        'credit_limit_amount',
     ];
 
     protected $tabsRelations = [
-        'shipping' => [ CustomerShippingAddress::class, 'customer_id', 'id' ],
-        'billing' => [ CustomerBillingAddress::class, 'customer_id', 'id' ],
+        'shipping' => [ UserShippingAddress::class, 'customer_id', 'id' ],
+        'billing' => [ UserBillingAddress::class, 'customer_id', 'id' ],
     ];
 
     protected $casts = [
         'first_name' => NotDefinedCast::class,
         'last_name' => NotDefinedCast::class,
         'phone' => NotDefinedCast::class,
-        'owed_amount' => CurrencyCast::class,
-        'account_amount' => CurrencyCast::class,
-        'purchases_amount' => CurrencyCast::class,
         'gender' => GenderCast::class,
         'active' => YesNoBoolCast::class,
     ];
@@ -197,9 +191,9 @@ class UserCrud extends CrudService
                 'label' => __( 'Username' ),
                 'name' => 'username',
                 'value' => $entry->username ?? '',
-                'validation' => $entry === null ? 'required|unique:nexopos_users,username' : [
+                'validation' => $entry === null ? 'required|unique:users,username' : [
                     'required',
-                    Rule::unique( 'nexopos_users', 'username' )->ignore( $entry->id ),
+                    Rule::unique( 'users', 'username' )->ignore( $entry->id ),
                 ],
                 'description' => __( 'Provide a name to the resource.' ),
             ],
@@ -211,10 +205,10 @@ class UserCrud extends CrudService
                             'type' => 'text',
                             'name' => 'email',
                             'label' => __( 'Email' ),
-                            'validation' => $entry === null ? 'required|email|unique:nexopos_users,email' : [
+                            'validation' => $entry === null ? 'required|email|unique:users,email' : [
                                 'required',
                                 'email',
-                                Rule::unique( 'nexopos_users', 'email' )->ignore( $entry->id ),
+                                Rule::unique( 'users', 'email' )->ignore( $entry->id ),
                             ],
                             'description' => __( 'Will be used for various purposes such as email recovery.' ),
                             'value' => $entry->email ?? '',
@@ -257,13 +251,6 @@ class UserCrud extends CrudService
                             'label' => __( 'Roles' ),
                             'value' => $entry !== null ? ( $entry->roles()->get()->map( fn( $role ) => $role->id )->toArray() ?? '' ) : [],
                         ], [
-                            'type' => 'select',
-                            'label' => __( 'Group' ),
-                            'name' => 'group_id',
-                            'value' => $entry->group_id ?? '',
-                            'options' => Helper::toJsOptions( CustomerGroup::all(), [ 'id', 'name' ] ),
-                            'description' => __( 'Assign the customer to a group' ),
-                        ], [
                             'type' => 'datetimepicker',
                             'label' => __( 'Birth Date' ),
                             'name' => 'birth_date',
@@ -293,7 +280,7 @@ class UserCrud extends CrudService
                             'label' => __( 'Phone' ),
                             'validation' => collect( [
                                 ns()->option->get( 'ns_customers_force_unique_phone', 'no' ) === 'yes' ? (
-                                    $entry instanceof User && ! empty( $entry->phone ) ? Rule::unique( 'nexopos_users', 'phone' )->ignore( $entry->id ) : Rule::unique( 'nexopos_users', 'phone' )
+                                    $entry instanceof User && ! empty( $entry->phone ) ? Rule::unique( 'users', 'phone' )->ignore( $entry->id ) : Rule::unique( 'users', 'phone' )
                                 ) : '',
                             ] )->toArray(),
                             'description' => __( 'Set the user phone number.' ),
@@ -461,19 +448,6 @@ class UserCrud extends CrudService
         if ( ! empty( $inputs[ 'password' ] ) ) {
             $inputs[ 'password' ] = Hash::make( $inputs[ 'password' ] );
         }
-
-        return collect( $inputs )->map( function ( $value, $key ) {
-            if ( $key === 'group_id' && empty( $value ) ) {
-                $value = $this->options->get( 'ns_customers_default_group', false );
-                $group = CustomerGroup::find( $value );
-
-                if ( ! $group instanceof CustomerGroup ) {
-                    throw new NotAllowedException( __( 'The assigned default customer group doesn\'t exist or is not defined.' ) );
-                }
-            }
-
-            return $value;
-        } )->toArray();
     }
 
     /**
@@ -495,19 +469,6 @@ class UserCrud extends CrudService
         if ( ! empty( $inputs[ 'password' ] ) ) {
             $inputs[ 'password' ] = Hash::make( $inputs[ 'password' ] );
         }
-
-        return collect( $inputs )->map( function ( $value, $key ) {
-            if ( $key === 'group_id' && empty( $value ) ) {
-                $value = $this->options->get( 'ns_customers_default_group', false );
-                $group = CustomerGroup::find( $value );
-
-                if ( ! $group instanceof CustomerGroup ) {
-                    throw new NotAllowedException( __( 'The assigned default customer group doesn\'t exist or is not defined.' ) );
-                }
-            }
-
-            return $value;
-        } )->toArray();
     }
 
     /**
@@ -627,23 +588,11 @@ class UserCrud extends CrudService
                         column: 'active',
                         label: __( 'Active' )
                     ),
-                    CrudTable::attribute(
-                        column: 'email',
-                        label: __( 'Email' )
-                    )
                 )
             ),
             CrudTable::column(
-                label: __( 'Wallet' ),
-                identifier: 'account_amount',
-            ),
-            CrudTable::column(
-                label: __( 'Owed' ),
-                identifier: 'owed_amount'
-            ),
-            CrudTable::column(
-                label: __( 'Purchases' ),
-                identifier: 'purchases_amount'
+                label: __( 'Email' ),
+                identifier: 'email',
             ),
             CrudTable::column(
                 label: __( 'Roles' ),
@@ -781,7 +730,7 @@ class UserCrud extends CrudService
             [
                 'label' => __( 'Delete Selected Users' ),
                 'identifier' => 'delete_selected',
-                'url' => ns()->route( 'ns.api.crud-bulk-actions', [
+                'url' => nsRoute( 'ns.api.crud-bulk-actions', [
                     'namespace' => $this->namespace,
                 ] ),
             ],

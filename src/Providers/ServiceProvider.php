@@ -2,20 +2,16 @@
 namespace Ns\Providers;
 
 use Illuminate\Support\ServiceProvider as CoreServiceProvider;
-use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Vite;
 use Ns\Classes\NsViteDirective;
 use Ns\Console\Commands\ExtractTranslation;
+use Ns\Console\Commands\GenerateModuleCommand;
 use Ns\Console\Commands\InstallCommand;
 use Ns\View\Components\SessionMessage;
 use Ns\Services\Helper;
-use App\Events\ApiRouteLoadedEvent;
+use Ns\Events\LoadApiRouteEvent;
 
 /**
  * Class Provider
@@ -58,52 +54,51 @@ class ServiceProvider extends CoreServiceProvider
 
     public function boot()
     {
-        $this->publishesMigrations([
-            __DIR__ . '/../../database/migrations' => database_path( 'migrations' ),
-        ]);
-
-        $this->publishes([
-            __DIR__ . '/../../public' => public_path( 'vendor/ns' ),
-        ], 'nexopos-assets' );
-
-        $this->publishes([
-            __DIR__ . '/../../config/nexopos.php' => config_path( 'nexopos.php' ),
-        ], 'nexopos-config' );
-
-        $this->publishes([
-            __DIR__ . '/../../database/permissions' => database_path( 'permissions' ),
-        ], 'nexopos-permissions' );
-
-        $this->loadJsonTranslationsFrom ( __DIR__ . '/../lang' );
-
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'ns');
 
+        $this->loadJsonTranslationsFrom ( __DIR__ . '/../lang' );  
+
+        /**
+         * This groups all the things that are only needed when the app is running in console.
+         */
         if ( $this->app->runningInConsole() ) {
-            // ...
-        }
+            $this->publishesMigrations([
+                __DIR__ . '/../../database/migrations' => database_path( 'migrations' ),
+            ]);
+    
+            $this->publishes([
+                __DIR__ . '/../../public' => public_path( 'vendor/ns' ),
+            ], 'nexopos-assets' );
+    
+            $this->publishes([
+                __DIR__ . '/../../config/nexopos.php' => config_path( 'nexopos.php' ),
+            ], 'nexopos-config' );
+    
+            $this->publishes([
+                __DIR__ . '/../../database/permissions' => database_path( 'permissions' ),
+            ], 'nexopos-permissions' );
 
-        Route::middleware( 'web' )->group( function() {
-            $this->loadRoutesFrom( __DIR__ . '/../../routes/web.php' );
-        });
-
-        // Route::prefix( 'api' )->group( function() {
-        //     $this->loadRoutesFrom( __DIR__ . '/../../routes/api.php' );
-        // });
-
-        if ( $this->app->runningInConsole() ) {
             $this->commands([
                 InstallCommand::class,
-                ExtractTranslation::class
+                ExtractTranslation::class,
+                GenerateModuleCommand::class,
             ]);
         }
 
         Blade::directive( 'nsvite', new NsViteDirective );
         Blade::component( 'session-message', SessionMessage::class );
 
-        Event::listen( ApiRouteLoadedEvent::class, function() {
-            Route::prefix( 'api' )->group( function() {
-                $this->loadRoutesFrom( __DIR__ . '/../../routes/api.php' );
-            });
+        /**
+         * As the API routes depends on Laravel Sanctum, which might not be loaded at this point,
+         * We'll then inject an Event to the api.php that will then be triggered when the api.php file
+         * is accessed by the app and therefore our API routes will be loaded.
+         */
+        Event::listen( LoadApiRouteEvent::class, function() {
+            $this->loadRoutesFrom( __DIR__ . '/../../routes/api.php' );
+        });
+
+        Route::middleware( 'web' )->group( function() {
+            $this->loadRoutesFrom( __DIR__ . '/../../routes/web.php' );
         });
     }
 }

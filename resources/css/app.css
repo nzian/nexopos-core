@@ -63,6 +63,10 @@ hr {
     }
 }
 
+.brand-name {
+    @apply font-bold text-transparent bg-clip-text bg-gradient-to-b from-blue-200 to-indigo-400 text-3xl;
+}
+
 #grid-items {
     .vue-recycle-scroller__item-wrapper {
         @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-0 overflow-y-auto;

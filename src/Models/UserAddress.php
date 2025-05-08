@@ -15,7 +15,7 @@ class UserAddress extends NsModel
 {
     use HasFactory;
 
-    protected $table = 'nexopos_' . 'users_addresses';
+    protected $table = 'users_addresses';
 
     /**
      * define the relationship

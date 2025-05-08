@@ -18,7 +18,7 @@ class Role extends NsRootModel
 {
     use HasFactory;
 
-    protected $table = 'nexopos_roles';
+    protected $table = 'roles';
 
     protected $fillable = [ 'namespace', 'name', 'description', 'reward_system_id', 'minimal_credit_payment' ];
 

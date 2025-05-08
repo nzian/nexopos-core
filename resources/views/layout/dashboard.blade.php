@@ -40,13 +40,13 @@ if ( Auth::check() ) {
     <div class="h-full w-full flex flex-col">
         <div class="overflow-hidden flex flex-auto">
             <div id="dashboard-aside">
-                <div v-if="sidebar === 'visible'" v-cloak  class="w-64 z-50 absolute md:static flex-shrink-0 h-full flex-col overflow-hidden">
+                <div v-if="sidebar === 'visible'" class="w-64 z-50 absolute md:static flex-shrink-0 h-full flex-col overflow-hidden">
                     <div class="ns-scrollbar overflow-y-auto h-full text-sm">
                         <div class="logo py-4 flex justify-center items-center">
                             @if ( ns()->option->get( 'ns_store_rectangle_logo' ) )
                             <img src="{{ ns()->option->get( 'ns_store_rectangle_logo' ) }}" class="w-11/12" alt="logo"/>
                             @else
-                            <h1 class="font-black text-transparent bg-clip-text bg-gradient-to-b from-blue-200 to-indigo-400 text-3xl">NexoPOS</h1>
+                            <h1 class="brand-name">NexoPOS</h1>
                             @endif
                         </div>
                         <ul id="aside-menu">

@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        if ( ! Schema::hasTable( 'nexopos_users_widgets' ) ) {
-            Schema::create( 'nexopos_users_widgets', function ( Blueprint $table ) {
+        if ( ! Schema::hasTable( 'users_widgets' ) ) {
+            Schema::create( 'users_widgets', function ( Blueprint $table ) {
                 $table->uuid( 'id' )->primary();
                 $table->string( 'identifier' );
                 $table->string( 'column' );
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists( 'nexopos_users_widgets' );
+        Schema::dropIfExists( 'users_widgets' );
     }
 };

@@ -157,7 +157,20 @@ class CoreService
      */
     public function simplifyManifest(): Collection
     {
-        $manifest = json_decode( file_get_contents( base_path( 'public/vendor/ns/build/manifest.json' ) ), true );
+        $possiblePaths = [
+            base_path( 'public/vendor/ns/build/.vite/manifest.json' ),
+            base_path( 'public/vendor/ns/build/manifest.json' ),
+        ];
+
+        $manifestPath = collect( $possiblePaths )->filter( function ( $path ) {
+            return file_exists( $path );
+        } )->first();
+
+        if ( ! $manifestPath ) {
+            return collect();
+        }
+        
+        $manifest = json_decode( file_get_contents( $manifestPath ), true );
 
         $files = collect( $manifest )
             ->mapWithKeys( fn( $value, $key ) => [ $key => asset( 'build/' . $value[ 'file' ] ) ] )

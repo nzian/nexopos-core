@@ -74,6 +74,27 @@ return new class extends Migration
                 }
             } );
         }
+
+        if (!Schema::hasTable('users_addresses')) {
+            Schema::create('users_addresses', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->integer('customer_id');
+                $table->string('type'); // either "billing" | "shipping"
+                $table->string('email')->nullable();
+                $table->string('first_name')->nullable();
+                $table->string('last_name')->nullable();
+                $table->string('phone')->nullable();
+                $table->string('address_1')->nullable();
+                $table->string('address_2')->nullable();
+                $table->string('country')->nullable();
+                $table->string('city')->nullable();
+                $table->string('pobox')->nullable();
+                $table->string('company')->nullable();
+                $table->string('uuid')->nullable();
+                $table->integer('author');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
@@ -117,5 +138,7 @@ return new class extends Migration
                 }
             });
         }
+
+        Schema::dropIfExists( 'users_addresses' );
     }
 };

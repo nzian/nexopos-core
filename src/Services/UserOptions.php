@@ -2,7 +2,7 @@
 
 namespace Ns\Services;
 
-use Ns\Option;
+use Ns\Models\Option;
 
 class UserOptions extends Options
 {

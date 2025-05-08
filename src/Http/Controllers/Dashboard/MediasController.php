@@ -22,7 +22,7 @@ class MediasController extends DashboardController
 
     public function showMedia()
     {
-        return View::make( 'pages.dashboard.medias.list', [
+        return View::make( 'ns::pages.dashboard.medias.list', [
             'title' => __( 'Manage Medias' ),
             'description' => __( 'Upload and manage medias (photos).' ),
         ] );

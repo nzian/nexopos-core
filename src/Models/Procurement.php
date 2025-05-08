@@ -33,7 +33,7 @@ class Procurement extends NsModel
 {
     use HasFactory;
 
-    protected $table = 'nexopos_' . 'procurements';
+    protected $table = '' . 'procurements';
 
     /**
      * this status mention when the procurement

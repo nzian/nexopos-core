@@ -39,8 +39,25 @@ As the project relies on Laravel Sanctum, you need to run this command to instal
 Note that the package is already a dependency.
 
 ```
-php artisan php artisan install:api
+php artisan install:api
 ```
+
+### Installing NexoPOS Core
+Similarily to Laravel Sanctum, NexoPOS Core needs some files to be published. Note that here, some of the existing file will be edted by the package as
+it needs it to work properly. 
+
+The impacted files are:
+
+- config/filesystems.php
+- routes/api.php
+
+```
+php artisan ns:install --filesystem --routes
+```
+This commands will perform two things:
+
+- It will publish the filesystem required to the filesystems.php
+- It will update your api.php to trigger an event.
 
 ## Authentication
 NexoPOS Core uses it's own implementation of authentication. While it's created on top of laravel, it provides more features. Therefore, it's recommended to change the model provider on the config/auth.php. If you're using Laravel 12, you only need to set it using "AUTH_MODEL" on the environment file.

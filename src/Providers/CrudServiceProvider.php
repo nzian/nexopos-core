@@ -2,12 +2,11 @@
 
 namespace Ns\Providers;
 
-use Ns\Facades\Hook;
 use Ns\Classes\Cache;
 use Ns\Services\ModulesService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use TorMorten\Eventy\Facades\Eventy;
+use Ns\Classes\Hook;
 
 class CrudServiceProvider extends ServiceProvider
 {
@@ -22,14 +21,15 @@ class CrudServiceProvider extends ServiceProvider
          * every crud class on the system should be
          * added here in order to be available and supported.
          */
-        Eventy::addFilter( 'ns-crud-resource', function ( $identifier ) {
+        Hook::addFilter( 'ns-crud-resource', function ( $identifier ) {
             /**
              * We'll attempt autoloading crud that explicitely
              * defined they want to be autoloaded. We expect classes to have 2
              * constant: AUTOLOAD=true, IDENTIFIER=<string>.
              */
             $classes = Cache::get( 'crud-classes', function () {
-                $files = collect( Storage::disk( 'ns' )->files( 'app/Crud' ) );
+                // $files = collect( Storage::disk( 'ns' )->files( 'app/Crud' ) );
+                $files = collect( glob( NS_ROOT . 'src/Crud/*.php' ) );
 
                 return $files->map( fn( $file ) => 'Ns\Crud\\' . pathinfo( $file )[ 'filename' ] )
                     ->filter( fn( $class ) => ( defined( $class . '::AUTOLOAD' ) && defined( $class . '::IDENTIFIER' ) ) );

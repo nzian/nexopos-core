@@ -22,7 +22,9 @@ foreach( $expression as $file ) {
             echo '<link rel="stylesheet" href="' . $hotFileContent . '/' . $file . '">';
         }
     } else {
-        $url   =  Illuminate\Support\Facades\Vite::useBuildDirectory( 'vendor/ns/build' )->asset( $file );
+        $url   =  Illuminate\Support\Facades\Vite::useBuildDirectory( 'vendor/ns/build' )
+            ->useManifestFilename( '.vite/manifest.json' )
+            ->asset( $file );
 
         if ( in_array( $extension, [ 'js', 'ts' ] ) ) {
             echo '<script type="module" src="' . $url . '"></script>';

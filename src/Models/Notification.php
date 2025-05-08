@@ -19,7 +19,7 @@ class Notification extends NsModel
 {
     use HasFactory, Notifiable;
 
-    protected $table = 'nexopos_notifications';
+    protected $table = 'notifications';
 
     protected $dispatchesEvents = [
         'created' => NotificationCreatedEvent::class,

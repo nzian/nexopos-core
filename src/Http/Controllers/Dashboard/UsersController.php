@@ -48,7 +48,7 @@ class UsersController extends DashboardController
         ns()->restrict( [ 'update.users' ] );
 
         if ( $user->id === Auth::id() ) {
-            return redirect( ns()->route( 'ns.dashboard.users.profile' ) );
+            return redirect( nsRoute( 'ns.dashboard.users.profile' ) );
         }
 
         return UserCrud::form( $user );
@@ -73,7 +73,7 @@ class UsersController extends DashboardController
          */
         ns()->restrict( [ 'update.roles' ] );
 
-        return View::make( 'pages.dashboard.users.permission-manager', [
+        return View::make( 'ns::pages.dashboard.users.permission-manager', [
             'title' => __( 'Permission Manager' ),
             'description' => __( 'Manage all permissions and roles' ),
         ] );
@@ -88,7 +88,7 @@ class UsersController extends DashboardController
     {
         ns()->restrict( [ 'manage.profile' ] );
 
-        return View::make( 'pages.dashboard.users.profile', [
+        return View::make( 'ns::pages.dashboard.users.profile', [
             'title' => __( 'My Profile' ),
             'description' => __( 'Change your personal settings' ),
             'src' => url( '/api/forms/ns.user-profile' ),

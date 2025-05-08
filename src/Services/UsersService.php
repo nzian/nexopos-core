@@ -169,7 +169,7 @@ class UsersService
         }
 
         $validation_required = ns()->option->get( 'ns_registration_validated', 'yes' ) === 'yes' ? true : false;
-        $redirectTo = ns()->route( 'ns.login' );
+        $redirectTo = nsRoute( 'ns.login' );
 
         return [
             'status' => 'success',
@@ -376,5 +376,72 @@ class UsersService
         ns()->restrict( $permission );
 
         return true;
+    }
+
+    public function getAddressFields( $model = null ): array
+    {
+        return [
+            [
+                'type' => 'text',
+                'name' => 'first_name',
+                'value' => $model->first_name ?? '',
+                'label' => __( 'First Name' ),
+                'description' => __( 'Provide the billing first name.' ),
+            ], [
+                'type' => 'text',
+                'name' => 'last_name',
+                'value' => $model->last_name ?? '',
+                'label' => __( 'Last Name' ),
+                'description' => __( 'Provide the billing last name.' ),
+            ], [
+                'type' => 'text',
+                'name' => 'phone',
+                'value' => $model->phone ?? '',
+                'label' => __( 'Phone' ),
+                'description' => __( 'Billing phone number.' ),
+            ], [
+                'type' => 'text',
+                'name' => 'address_1',
+                'value' => $model->address_1 ?? '',
+                'label' => __( 'Address 1' ),
+                'description' => __( 'Billing First Address.' ),
+            ], [
+                'type' => 'text',
+                'name' => 'address_2',
+                'value' => $model->address_2 ?? '',
+                'label' => __( 'Address 2' ),
+                'description' => __( 'Billing Second Address.' ),
+            ], [
+                'type' => 'text',
+                'name' => 'country',
+                'value' => $model->country ?? '',
+                'label' => __( 'Country' ),
+                'description' => __( 'Billing Country.' ),
+            ], [
+                'type' => 'text',
+                'name' => 'city',
+                'value' => $model->city ?? '',
+                'label' => __( 'City' ),
+                'description' => __( 'City' ),
+            ], [
+                'type' => 'text',
+                'name' => 'pobox',
+                'value' => $model->pobox ?? '',
+                'label' => __( 'PO.Box' ),
+                'description' => __( 'Postal Address' ),
+            ], [
+                'type' => 'text',
+                'name' => 'company',
+                'value' => $model->company ?? '',
+                'label' => __( 'Company' ),
+                'description' => __( 'Company' ),
+            ], [
+                'type' => 'text',
+                'name' => 'email',
+                'value' => $model->email ?? '',
+                'label' => __( 'Email' ),
+                'description' => __( 'Email' ),
+            ],
+        ];
     }
 }

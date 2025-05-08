@@ -15,7 +15,7 @@ class Permission extends Model
 {
     use HasFactory;
 
-    protected $table = 'nexopos_permissions';
+    protected $table = 'permissions';
 
     protected $fillable = [ 'namespace', 'name', 'description' ];
 

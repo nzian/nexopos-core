@@ -17,5 +17,5 @@ class UserWidget extends Model
 
     protected $fillable = [ 'column', 'identifier', 'class_name', 'column', 'position', 'user_id' ];
 
-    protected $table = 'nexopos_users_widgets';
+    protected $table = 'users_widgets';
 }
