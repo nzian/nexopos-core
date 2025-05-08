@@ -24,7 +24,7 @@ class UpdateController extends Controller
 
     public function updateDatabase()
     {
-        return view( 'pages.database.update', [
+        return view( 'ns::pages.database.update', [
             'title' => __( 'Database Update' ),
             'redirect' => session( 'after_update', nsRoute( 'ns.dashboard.home' ) ),
             'modules' => collect( $this->modulesService->getEnabledAndAutoloadedModules() )->filter( fn( $module ) => count( $module[ 'migrations' ] ) > 0 )->toArray(),

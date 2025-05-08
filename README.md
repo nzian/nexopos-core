@@ -67,3 +67,11 @@ AUTH_MODEL = Ns\Models\User;
 ```
 
 - Sanctum (publish vendors)
+
+## Modules
+
+As we've exported core feauture of NexoPOS, modules are supported. However, in order for the modules files to be automatically loaded, you need to edit the composer.json file of the Laravel project. On The "autoload" entry, make sure to add on the "psr-4" entry the following:
+
+```
+"Modules\\": "modules/"
+```
